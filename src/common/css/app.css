@@ -1,0 +1,299 @@
+/* 
+关于自适应布局的原理
+
+假设设计图宽度是: 750px，为了方便计算，基准值取100px。那么就有：
+
+750px = 100vw => 1px = 0.133333vw => 100px = 13.3333vw
+
+750px = 100vw => 1vw = 7.5px => 13.3333vw * 7.5 => 约等于100px
+375px = 100vw => 1vw = 3.75px => 13.3333vw * 3.75px => 约等于50px
+
+
+原理：
+我们想要实现的效果是布局能够随着屏幕宽高的不同而等比例的变化。
+
+使用rem单位进行布局，这样所有元素的边距、宽高等等都是相对于root元素的字体大小计算出来的值。
+那么只要让root元素的字体大小按照屏幕宽度的等比例的变化，就可以让整个布局等比例变化。
+
+示例：
+13.3333vw是一个基准值，它会随着屏幕宽度而变化。我们P来表示该基准值。
+width = 750px, P = 100px, 1rem = 100px
+width = 375px, P = 50px, 1rem = 50px
+
+假设现在有个div width=1rem; height=1rem。
+当屏幕 = 750px时，这个div高100px，宽100px
+当屏幕= 375px时，这个div高50px，宽50px。
+
+
+*/
+html {
+  font-size: 13.3333vw;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-size: 0.3rem;
+  -webkit-text-size-adjust: none;
+}
+
+h1,h2,h3,h4,h5,p,dl,dd {
+  margin: 0;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr, td {
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  vertical-align: top;
+}
+
+a {
+  text-decoration: none;
+}
+
+input, a {
+  /* 按住不放时要显示的高亮颜色 */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  /* ios下的圆角样式 */
+  -webkit-appearance: none;
+}
+
+.clear::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  height: .9rem;
+  width: 100vw;
+
+  background-color: #323436;
+  z-index: 1000;
+}
+
+.header-logo {
+  margin: .23rem auto 0;
+  display: block;
+  width: 1.84rem;
+}
+
+.header-btn-left, .header-btn-right {
+  position: absolute;
+  top: 0;
+
+  width: .9rem;
+  height: .9rem;
+  line-height: .9rem;
+
+  font-size: .5rem;
+  color: #fff;
+  text-align: center;
+}
+
+.header-btn-left {
+  left: 0;
+}
+.header-btn-right {
+  right: 0;
+  line-height: .9rem;
+}
+
+.header-username {
+  padding-right: .1rem;
+  text-align: right;
+  overflow: hidden;
+  font-size: .26rem;
+
+  text-overflow: ellipsis;
+}
+
+/* footer */
+.footer-nav {
+  padding: .15rem .3rem .35rem;
+  background: #323436;
+}
+.miaov-contact a {
+  float: left;
+  position: relative;
+  font: .24rem/.6rem "\5B8B\4F53";
+  color: #fff;
+  padding: 0 .3rem 0 .95rem;
+}
+.miaov-contact a:before {
+  position: absolute;
+  left: .37rem;
+  top: 0;
+  font-size: .4rem;
+}
+.footer-nav nav a {
+  float: left;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 25%;
+  margin-top: .2rem;
+  font: .24rem/.26rem "\5B8B\4F53";
+  color: #adaeae;
+  padding-left: .37rem;
+  border-right: 1px solid #adaeae;
+}
+.footer-nav nav a:nth-of-type(4n){
+  border: none;
+}
+.footer-copy {
+  font: .24rem/.74rem "\5FAE\8F6F\96C5\9ED1";
+  text-align: center;
+  color: #868b8d;
+  background: #2d2f30;
+}
+
+.menu {
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  padding: 1.2rem .5rem;
+
+  width: 4rem;
+  height: 100vh;
+
+  background: url('../img/menu.png') no-repeat;
+  background-size: cover; 
+
+  z-index: 10;
+}
+.menu a {
+  display: block;
+  border-bottom: 1px solid rgba(255, 255, 255, .3);
+  color: rgba(255, 255, 255, .8);
+  font: .28rem/.9rem "宋体";
+}
+.menu a::before {
+  font-size: .4rem;
+  margin: 0 .1rem;
+  color: rgba(255, 255, 255, .6);
+  vertical-align: middle;
+}
+.menu a:first-child {
+  border-top: 1px solid rgba(255, 255, 255, .3);
+}
+
+.page {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding-top: .9rem;
+
+  min-height: 100vh;
+
+  background: #f2f9fc;
+  z-index: 100;
+}
+.page-content{
+  flex: 1;
+}
+
+/* 幻灯片 */
+.tab {
+  position: relative;
+  overflow: hidden;
+}
+.pidList {
+  width: 400vw;
+}
+.pidList > li {
+  float: left;
+  width: 100vw;
+}
+.pidList img {
+  width: 100vw;
+}
+.pidNav {
+  position: absolute;
+  left: 0;
+  bottom: .2rem;
+
+  width: 100vw;
+  height: .1rem;
+  text-align: center;
+}
+.pidNav span {
+  /* 为什么span不跟随div，而是到了底部? */
+  display: inline-block;
+  vertical-align: top;
+
+  margin: 0 .1rem;
+
+  width: .3rem;
+  height: .1rem;
+  background: rgba(255, 255, 255, .5);
+}
+.pidNav .active {
+  background-color: #fff;
+}
+.banner img {
+  height: 4.6rem;
+}
+
+
+
+.miaov-btn {
+  background: linear-gradient(-72deg,#f72e6c,#fb88ba);
+  box-shadow: 1px 1px 5px rgba(225,86,113,.5);
+  text-align: center;
+  color: #fff;
+}
+.miaov-btn-sm {
+  width: 2rem;
+  height: .6rem;
+  font: .3rem/.6rem "\5B8B\4F53";
+  letter-spacing: 3px;
+  border-radius: .3rem;
+}
+.miaov-btn-md {
+  width: 3rem;
+  height: .7rem;
+  font: .34rem/.7rem "\5B8B\4F53";
+  color:  #fff;
+  text-align: center;
+  letter-spacing: 3px;
+  border-radius: .35rem;
+}
+
+
+.loadMore {
+  font-size: .3rem;
+  line-height: .7rem;
+  text-align: center;
+  color: #999;
+}
+/* 背景图+文字的布局 */
+.loadIn span {
+  vertical-align: top;
+  display: inline-block;
+  padding-left: .4rem;
+  
+  background: url('../img/loading.gif') no-repeat 0 center;
+  background-size: .3rem .3rem;
+}
