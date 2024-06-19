@@ -22,16 +22,14 @@ export default class Home extends Component {
   render() {
     return (
       <Layout>
-        <div className="page">
-          <Tab className="banner" renderItem={(item) => (<img src={item} alt="" />)} data={banners} />
+        <Tab className="banner" renderItem={(item) => (<img src={item} alt="" />)} data={banners} />
 
-          <Course />
-          <Vip />
-          <Miaov />
-          <Works />
+        <Course />
+        <Vip />
+        <Miaov />
+        <Works />
 
-          <footer className='loadMore loadIn'><span>加载内容....</span> </footer>
-        </div>
+        <footer className='loadMore loadIn'><span>加载内容....</span> </footer>
       </Layout>
     )
   }

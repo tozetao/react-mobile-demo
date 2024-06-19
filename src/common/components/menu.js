@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Menu() {
+  // const className = props.open ? ''
   return (
     <nav className='menu'>
       <Link to="/" className="iconfont icon-home">首页</Link>

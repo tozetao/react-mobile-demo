@@ -4,8 +4,13 @@ export default class Header extends Component {
   render() {
     const { menu, hasSignedIn } = this.props
 
-    let menuIcon = <i className='header-btn-left iconfont icon-caidan' />
+    // 菜单按钮
+    let menuIcon = <i className='header-btn-left iconfont icon-caidan' onTouchEnd={() => {
+      console.log('touch end in menu');
+      this.props.onChangeOpen()
+    }} />
     if (!menu) {
+      // 返回按钮
       menuIcon = <i className='header-btn-left iconfont icon-fanhui'></i>
     }
 

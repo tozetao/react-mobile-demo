@@ -27,6 +27,7 @@ width = 375px, P = 50px, 1rem = 50px
 
 */
 html {
+  /* font-size取决于设计图，它是以设计图的宽度作为基值，然后100px要用多个vw来表示 */
   font-size: 13.3333vw;
 }
 
@@ -208,7 +209,9 @@ input, a {
   min-height: 100vh;
 
   background: #f2f9fc;
-  z-index: 100;
+
+  position: relative;
+  z-index: 50;
 }
 .page-content{
   flex: 1;
